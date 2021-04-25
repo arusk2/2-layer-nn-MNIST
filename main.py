@@ -99,8 +99,10 @@ for t in train:
     plt.plot(test_acc, label="Testing Accuracy")
     plt.xlabel('Epochs')
     plt.ylabel('Percent Correct')
-    title = f"Testing vs Training Accuracy with {tr_c} Training Examples and {ts_c} Testing Examples (100 Hidden Units)"
-    plt.title(title)
+    title = f"Testing vs Training Accuracy (100 Hidden Units)"
+    subtitle = f"{tr_c} Training Examples and {ts_c} Testing Examples"
+    plt.suptitle(title)
+    plt.title(subtitle)
     plt.legend()
     plt.show()
     plt.clf()
