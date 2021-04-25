@@ -34,10 +34,11 @@ class Perceptron():
         for j in range(0, self.epochs):  # run training for 50 epochs
             # Shuffle inputs at each epoch to avoid overfitting
             inputs, labels = shuffle(inputs, labels, random_state=0)
+            test_inputs, test_labels = shuffle(test_inputs, test_labels, random_state=0)
             # Resetting tm-1 deltas at each epoch
             # self.delta_tm1_Wij = np.zeros((785, self.nhidden))
             # self.delta_tm1_Wkj = np.zeros((self.nhidden + 1, 10))
-            if j % 10 == 0:
+            if j % 25 == 0:
                 print("Epoch ", j)
             for i in range(0, len(inputs)):
                 self.forwardProp(inputs[i])
@@ -88,7 +89,7 @@ class Perceptron():
         # self.delta_tm1_wkj is a n+1x10 matrix, so I had to transpose the np.outer one to do elementwise add
         delta_Wkj = self.eta * np.transpose(np.dot(np.transpose([sigmak]), self.hidden_units.reshape(1, self.nhidden + 1))) + (self.momentum * self.delta_tm1_Wkj)
         # ^ this should currently be n+1x10
-        self.weights2 = self.weights2 - delta_Wkj
+        self.weights2 = self.weights2 + delta_Wkj
         #  ^ should be n+1x10
         self.delta_tm1_Wkj = delta_Wkj
         # ^ should be n+1x10
@@ -103,6 +104,6 @@ class Perceptron():
         delta_Wij = self.eta * np.transpose(np.dot(np.transpose([sigmaj]), input.reshape(1, 785))) + (self.momentum * self.delta_tm1_Wij)
         #                       ^ Makes this array 785xn, just like delta_tm1_Wij
 
-        self.weights1 = self.weights1 - delta_Wij
+        self.weights1 = self.weights1 + delta_Wij
         self.delta_tm1_Wij = delta_Wij
         return

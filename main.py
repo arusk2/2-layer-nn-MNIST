@@ -1,6 +1,5 @@
 # experiment goes here. Another file has all the class stuff for perceptron
 import keras
-
 import numpy as np
 from keras.datasets import mnist
 import perceptron
@@ -39,7 +38,9 @@ for n in nhidden:
     tr_acc *= 100
     test_acc = np.array(test_acc)
     test_acc *= 100
-    print(conf_matrix)
+    print(f"Final Testing Confusion Matrix for {n} Hidden Units.")
+    print(f"Final Training Accuracy: {tr_acc[-1]}\tFinal Testing Accuracy: {test_acc[-1]}")
+    print(conf_matrix.astype(int))
     plt.plot(tr_acc, label="Training Accuracy")
     plt.plot(test_acc, label="Testing Accuracy")
     plt.xlabel('Epochs')
@@ -62,12 +63,14 @@ for m in momentum:
     tr_acc *= 100
     test_acc = np.array(test_acc)
     test_acc *= 100
-    print(conf_matrix)
+    print(f"Final Testing Confusion Matrix for {m} Momentum (100 Hidden Units)")
+    print(f"Final Training Accuracy: {tr_acc[-1]}\tFinal Testing Accuracy: {test_acc[-1]}")
+    print(conf_matrix.astype(int))
     plt.plot(tr_acc, label="Training Accuracy")
     plt.plot(test_acc, label="Testing Accuracy")
     plt.xlabel('Epochs')
     plt.ylabel('Percent Correct')
-    plt.title(f"Testing vs Training Accuracy with Momentum ={m} (100 Hidden Units")
+    plt.title(f"Testing vs Training Accuracy with Momentum = {m} (100 Hidden Units)")
     plt.legend()
     plt.show()
     plt.clf()
@@ -79,8 +82,8 @@ momentum = .9
 train = [.25, .5]
 epochs = 50
 for t in train:
-    tr_c = t * len(xtrain)
-    ts_c = t * len(xtest)
+    tr_c = int(t * len(xtrain))
+    ts_c = int(t * len(xtest))
     test = perceptron.Perceptron(epochs, nhidden, eta, momentum)
     # train() shuffles inputs and so the order is not always the same
     conf_matrix, tr_acc, test_acc = test.train(xtrain[:tr_c], ytrain[:tr_c], xtest[:ts_c], ytest[:ts_c])
@@ -88,12 +91,16 @@ for t in train:
     tr_acc *= 100
     test_acc = np.array(test_acc)
     test_acc *= 100
-    print(conf_matrix)
+    print(f"Final Testing Confusion Matrix for {tr_c} Training Examples.")
+    print(f"Final Training Accuracy: {tr_acc[-1]}\tFinal Testing Accuracy: {test_acc[-1]}")
+    print(conf_matrix.astype(int))
+
     plt.plot(tr_acc, label="Training Accuracy")
     plt.plot(test_acc, label="Testing Accuracy")
     plt.xlabel('Epochs')
     plt.ylabel('Percent Correct')
-    plt.title(f"Testing vs Training Accuracy with {tr_c} Training Examples and {ts_c} Testing Examples (100 Hidden Units)")
+    title = f"Testing vs Training Accuracy with {tr_c} Training Examples and {ts_c} Testing Examples (100 Hidden Units)"
+    plt.title(title)
     plt.legend()
     plt.show()
     plt.clf()
